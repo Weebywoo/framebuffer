@@ -1,0 +1,39 @@
+[project]
+name = "framebuffer"
+version = "2026.0.1"
+dependencies = [
+    "pillow ~= 12.1.1",
+    "numpy ~= 2.4.3",
+]
+description = "A basic rendering engine utilising the terminal as display."
+readme = "README.md"
+
+[project.optional-dependencies]
+test = [
+    "ruff ~= 0.15.6",
+    "mypy ~= 1.19.1"
+]
+
+[build-system]
+requires = ["setuptools ~= 82.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+exclude = [
+    ".venv/",
+    ".idea/",
+    ".ruff_cache/",
+    ".mypy_cache/",
+    "resources/",
+    "__pychache__/",
+    "build/",
+    "LICENSE",
+    ".gitignore",
+    "src/framebuffer/framebuffer.egg-info/"
+]
+indent-width = 4
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
