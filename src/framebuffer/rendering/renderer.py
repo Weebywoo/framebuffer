@@ -4,7 +4,7 @@ from typing import Generator, Any
 
 from .backend import Backend
 from .frame import Frame
-from ..linalg import Vector4
+from ..linalg import Vector
 from ..pipeline.data import ShaderContext, Vertex, Triangle
 from ..pipeline.shaders import default_vertex_shader, default_fragment_shader
 from ..pipeline.stages import primitive_assembly, rasterize, viewport_mapping, clip_triangle
@@ -41,7 +41,7 @@ class Renderer:
                 for fragment in rasterize(mapped_triangle, dimensions=ctx.frame.size, texture=ctx.texture):
                     if ctx.frame.compare_depth(fragment.position, fragment.depth):
                         # Fragment Shader
-                        color: Vector4 = default_fragment_shader(fragment, ctx=ctx)
+                        color: Vector = default_fragment_shader(fragment, ctx=ctx)
                         ctx.frame.draw_pixel(fragment.position, color, fragment.depth)
 
     @staticmethod

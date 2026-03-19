@@ -1,6 +1,6 @@
 from typing import Any
 
-from framebuffer.linalg import Vector3, Vector2, Vector4
+from framebuffer.linalg import Vector
 from framebuffer.pipeline.data import Vertex
 
 
@@ -76,20 +76,20 @@ def handle_f(data: list[str]) -> tuple[list[tuple[int, int, int]], ...]:
     return face_indices, texture_indices, normal_indices
 
 
-def handle_uvs(uvs: list[Vector2], uv_indices: list[int]) -> list[Vector2]:
-    triangle_uvs: list[Vector2] = []
+def handle_uvs(uvs: list[Vector], uv_indices: list[int]) -> list[Vector]:
+    triangle_uvs: list[Vector] = []
 
     for index in uv_indices:
-        uv: Vector2 = uvs[index]
-        triangle_uvs.append(Vector2(x=uv.x, y=1.0 - uv.y))
+        uv: Vector = uvs[index]
+        triangle_uvs.append(Vector([uv.x, 1.0 - uv.y]))
 
     return triangle_uvs
 
 
 def load_obj(filepath: str) -> tuple[list[Vertex], list[int]]:
-    positions: list[Vector4] = []
-    uvs: list[Vector2] = []
-    normals: list[Vector3] = []
+    positions: list[Vector] = []
+    uvs: list[Vector] = []
+    normals: list[Vector] = []
 
     vertices: list[Vertex] = []
     indices: list[int] = []
@@ -103,23 +103,27 @@ def load_obj(filepath: str) -> tuple[list[Vertex], list[int]]:
         match line_args[0]:
             case "v":
                 positions.append(
-                    Vector4(x=float(line_args[1:][0]), y=float(line_args[1:][1]), z=float(line_args[1:][2]), w=1.0)
+                    Vector([float(line_args[1:][0]), float(line_args[1:][1]), float(line_args[1:][2]), 1.0])
                 )
 
             case "vn":
                 normals.append(
-                    Vector3(
-                        x=float(line_args[1:][0]),
-                        y=float(line_args[1:][1]),
-                        z=float(line_args[1:][2]),
+                    Vector(
+                        [
+                            float(line_args[1:][0]),
+                            float(line_args[1:][1]),
+                            float(line_args[1:][2]),
+                        ]
                     )
                 )
 
             case "vt":
                 uvs.append(
-                    Vector2(
-                        x=float(line_args[1:][0]),
-                        y=float(line_args[1:][1]),
+                    Vector(
+                        [
+                            float(line_args[1:][0]),
+                            float(line_args[1:][1]),
+                        ]
                     )
                 )
 

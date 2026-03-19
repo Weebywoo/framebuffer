@@ -1,14 +1,14 @@
 from dataclasses import dataclass
 
 from .texture import Texture
-from ...linalg import Matrix4x4
+from ...linalg import Matrix
 from ...rendering import Frame
 
 
 @dataclass
 class ShaderContext:
-    model_matrix: Matrix4x4
-    view_matrix: Matrix4x4
-    projection_matrix: Matrix4x4
+    model_matrix: Matrix
+    view_matrix: Matrix
+    projection_matrix: Matrix
     frame: Frame
     texture: Texture

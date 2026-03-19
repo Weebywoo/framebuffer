@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 
 from .texture import Texture
-from ...linalg import Vector2
+from ...linalg import Vector
 
 
 @dataclass
 class Fragment:
-    position: Vector2
+    position: Vector
     depth: float
-    uv: Vector2
+    uv: Vector
     texture: Texture

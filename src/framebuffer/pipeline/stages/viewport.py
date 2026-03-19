@@ -1,5 +1,5 @@
 from ..data import Vertex
-from ...linalg import Vector4
+from ...linalg import Vector
 
 
 def viewport_mapping(vertex: Vertex, dimensions: tuple[int, int]) -> Vertex:
@@ -14,7 +14,7 @@ def viewport_mapping(vertex: Vertex, dimensions: tuple[int, int]) -> Vertex:
     screen_y: float = (1 - (ndc_y * 0.5 + 0.5)) * (dimensions[1] - 1)
 
     mapped: Vertex = Vertex(
-        position=Vector4(screen_x, screen_y, ndc_z, vertex.position.w),
+        position=Vector([screen_x, screen_y, ndc_z, vertex.position.w]),
         uv=vertex.uv,
         depth=ndc_z,
         inverted_w=inverted_w,

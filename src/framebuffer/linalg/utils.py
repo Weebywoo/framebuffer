@@ -1,16 +1,14 @@
 import math
 
-from .vector2 import Vector2
-from .vector3 import Vector3
-from .vector4 import Vector4
+from .vector import Vector
 
 
 def point_in_triangle(
-    vertices: tuple[Vector4, Vector4, Vector4], point: Vector2
+    vertices: tuple[Vector, Vector, Vector], point: Vector
 ) -> tuple[bool, tuple[float, float, float]]:
-    a: Vector2 = Vector2(vertices[0].x, vertices[0].y)
-    b: Vector2 = Vector2(vertices[1].x, vertices[1].y)
-    c: Vector2 = Vector2(vertices[2].x, vertices[2].y)
+    a: Vector = Vector([vertices[0].x, vertices[0].y])
+    b: Vector = Vector([vertices[1].x, vertices[1].y])
+    c: Vector = Vector([vertices[2].x, vertices[2].y])
     area_ABP: float = signed_triangle_area(a, b, point)
     area_BCP: float = signed_triangle_area(b, c, point)
     area_CAP: float = signed_triangle_area(c, a, point)
@@ -21,21 +19,23 @@ def point_in_triangle(
     return in_triangle, (area_ABP, area_BCP, area_CAP)
 
 
-def signed_triangle_area(a: Vector2, b: Vector2, c: Vector2) -> float:
-    ac: Vector2 = c - a
-    ab: Vector2 = b - a
-    ab_perpendicular: Vector2 = Vector2(ab.y, -ab.x)
+def signed_triangle_area(a: Vector, b: Vector, c: Vector) -> float:
+    ac: Vector = c - a
+    ab: Vector = b - a
+    ab_perpendicular: Vector = Vector([ab.y, -ab.x])
 
     return ac.dot(ab_perpendicular) / 2
 
 
-def calc_barycentric_weights(area_ABP: float, area_BCP: float, area_CAP: float) -> Vector3:
+def calc_barycentric_weights(area_ABP: float, area_BCP: float, area_CAP: float) -> Vector:
     inverse_area_sum: float = 1 / (area_ABP + area_BCP + area_CAP)
 
-    return Vector3(
-        area_BCP * inverse_area_sum,
-        area_CAP * inverse_area_sum,
-        area_ABP * inverse_area_sum,
+    return Vector(
+        [
+            area_BCP * inverse_area_sum,
+            area_CAP * inverse_area_sum,
+            area_ABP * inverse_area_sum,
+        ]
     )
 
 
@@ -43,7 +43,7 @@ def clamp(a: int, vmin: int = 0, vmax: int = 1) -> int:
     return max(min(a, vmax), vmin)
 
 
-def calc_2d_aabb(vertices: tuple[Vector3, Vector3, Vector3], dimensions: tuple[int, int]) -> tuple[int, int, int, int]:
+def calc_2d_aabb(vertices: tuple[Vector, Vector, Vector], dimensions: tuple[int, int]) -> tuple[int, int, int, int]:
     a, b, c = vertices
     width, height = dimensions
     min_x: float = min(a.x, b.x, c.x)

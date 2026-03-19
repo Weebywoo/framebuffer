@@ -1,6 +1,6 @@
 import os
 
-from ..linalg import Vector4
+from ..linalg import Vector
 from ..rendering import Frame
 
 FOREGROUND: str = "\033[38;2;{r};{g};{b}m"
@@ -19,8 +19,8 @@ class Backend:
 
         for yi in range(0, frame.size[1], 2):
             for xi in range(frame.size[0]):
-                upper_pixel: Vector4 = frame.colour_buffer[yi][xi]
-                lower_pixel: Vector4 = frame.colour_buffer[yi + 1][xi]
+                upper_pixel: Vector = frame.colour_buffer[yi][xi]
+                lower_pixel: Vector = frame.colour_buffer[yi + 1][xi]
 
                 string_buffer += (
                     FOREGROUND.format(r=upper_pixel.x, g=upper_pixel.y, b=upper_pixel.z)

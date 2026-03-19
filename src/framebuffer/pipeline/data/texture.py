@@ -6,7 +6,7 @@ import numpy
 from PIL import Image
 from PIL.ImageFile import ImageFile
 
-from framebuffer.linalg import Vector2, Vector4
+from framebuffer.linalg import Vector
 
 
 @dataclass
@@ -15,7 +15,7 @@ class Texture:
     width: int
     height: int
 
-    def sample(self, coordinates: Vector2) -> Vector4:
+    def sample(self, coordinates: Vector) -> Vector:
         u: float = coordinates.x % 1.0
         v: float = coordinates.y % 1.0
         x: int = int(u * (self.width - 1))
@@ -23,9 +23,9 @@ class Texture:
         color: list[int] = self.texture[y][x]
 
         if len(color) == 3:
-            return Vector4(*color, 255)
+            return Vector(color + [255])
 
-        return Vector4(*color)
+        return Vector(color)
 
     @classmethod
     def load(cls, filepath: str) -> Texture:
