@@ -17,7 +17,7 @@ def main() -> None:
     index_buffers: list[list[int]] = [index_buffers_cube, index_buffers_plane]
     textures: list[Texture] = [
         Texture.load(filepath="./resources/textures/cat_texture.jpg"),
-        Texture.load(filepath="./resources/textures/CustomUVChecker_byValle_8K.png"),
+        Texture.load(filepath="./resources/textures/UVCheck_byValle.png"),
     ]
     mesh_positions: list[Vector] = [Vector.zeros(3), Vector([0, -2, 0])]
     mesh_scales: list[Vector] = [Vector.fill(1, length=3), Vector.fill(1, length=3)]
