@@ -11,8 +11,9 @@ from ..pipeline.stages import primitive_assembly, rasterize, viewport_mapping, c
 
 
 class Renderer:
-    _backend: Backend = Backend()
-    _frame: Frame = Frame(size=_backend.get_size())
+    def __init__(self) -> None:
+        self._backend: Backend = Backend()
+        self._frame: Frame = Frame(size=self._backend.get_size())
 
     @staticmethod
     def draw(vertex_buffer: list[Vertex], index_buffer: list[int], ctx: ShaderContext) -> None:

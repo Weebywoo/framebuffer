@@ -10,8 +10,8 @@ readme = "README.md"
 
 [project.optional-dependencies]
 test = [
-    "ruff ~= 0.15.6",
-    "mypy ~= 1.19.1"
+    "ruff ~= 0.15.8",
+    "mypy ~= 1.19.1",
 ]
 
 [build-system]

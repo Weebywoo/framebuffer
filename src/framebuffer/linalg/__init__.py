@@ -1,5 +1,4 @@
-from .vector import Vector
-from .matrix import Matrix
+from .linalg import Vector, Matrix
 
 __all__ = [
     "lerp",

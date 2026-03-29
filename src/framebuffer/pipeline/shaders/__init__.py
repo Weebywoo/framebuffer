@@ -1,5 +1,5 @@
-from .fragment import default_fragment_shader
-from .vertex import default_vertex_shader
+from .fragment_shader import default_fragment_shader
+from .vertex_shader import default_vertex_shader
 
 __all__ = [
     "default_fragment_shader",

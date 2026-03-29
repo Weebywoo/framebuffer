@@ -1,9 +1,10 @@
 import math
+import os
 
 from framebuffer import Renderer
 from framebuffer.linalg import Vector, Matrix
 from framebuffer.pipeline.data import Texture, Vertex, ShaderContext
-from framebuffer.pipeline.shaders.utils import create_view_matrix, create_projection_matrix, create_model_matrix
+from framebuffer.pipeline.shaders.shader_utils import create_view_matrix, create_projection_matrix, create_model_matrix
 from .io_utils import load_obj
 
 
@@ -19,16 +20,16 @@ def main() -> None:
         Texture.load(filepath="./resources/textures/cat_texture.jpg"),
         Texture.load(filepath="./resources/textures/UVCheck_byValle.png"),
     ]
-    mesh_positions: list[Vector] = [Vector.zeros(3), Vector([0, -2, 0])]
+    mesh_positions: list[Vector] = [Vector.zero(3), Vector([0, -2, 0])]
     mesh_scales: list[Vector] = [Vector.fill(1, length=3), Vector.fill(1, length=3)]
-    mesh_rotations: list[Vector] = [Vector.zeros(3), Vector.zeros(3)]
+    mesh_rotations: list[Vector] = [Vector.zero(3), Vector.zero(3)]
 
     renderer: Renderer = Renderer()
 
     for _ in renderer.frames():
         view_matrix: Matrix = create_view_matrix(
             camera_position=camera_position,
-            camera_rotation=Vector.zeros(3),
+            camera_rotation=Vector.zero(3),
         )
 
         with renderer.frame() as frame:
@@ -48,7 +49,7 @@ def main() -> None:
             ):
                 model_matrix: Matrix = create_model_matrix(
                     scale=Vector.fill(1, length=3),
-                    rotation=Vector.zeros(3),
+                    rotation=Vector.zero(3),
                     position=mesh_position,
                 )
                 shader_context: ShaderContext = ShaderContext(
@@ -63,4 +64,10 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    os.system("cls")
+
+    try:
+        main()
+
+    except KeyboardInterrupt:
+        os.system("cls")

@@ -1,6 +1,6 @@
 import math
 
-from .vector import Vector
+from .linalg import Vector
 
 
 def point_in_triangle(
