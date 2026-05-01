@@ -2,16 +2,16 @@
 name = "framebuffer"
 version = "2026.0.1"
 dependencies = [
-    "pillow ~= 12.1.1",
-    "numpy ~= 2.4.3",
+    "pillow ~= 12.2.0",
+    "numpy ~= 2.4.4",
 ]
 description = "A basic rendering engine utilising the terminal as display."
 readme = "README.md"
 
 [project.optional-dependencies]
 test = [
-    "ruff ~= 0.15.8",
-    "mypy ~= 1.19.1",
+    "ruff ~= 0.15.12",
+    "mypy ~= 1.20.2",
 ]
 
 [build-system]

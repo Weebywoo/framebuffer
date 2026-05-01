@@ -1,4 +1,3 @@
-import itertools
 from contextlib import contextmanager
 from typing import Generator, Any
 
@@ -20,16 +19,10 @@ class Renderer:
         # Vertex Shader
         transformed_vertices: list[Vertex] = [default_vertex_shader(vertex, ctx=ctx) for vertex in vertex_buffer]
         # Primitive assembly
-        triangles: list[Triangle[Vertex]] = primitive_assembly(
-            vertex_buffer=transformed_vertices,
-            index_buffer=index_buffer,
-        )
+        triangles: list[Triangle[Vertex]] = primitive_assembly(transformed_vertices, index_buffer)
 
         for triangle in triangles:
-            clipped_triangles: list[Triangle[Vertex]] | None = clip_triangle(triangle)
-
-            if clipped_triangles is None:
-                continue
+            clipped_triangles: list[Triangle[Vertex]] = clip_triangle(triangle, clipping=ctx.clipping)
 
             for clipped_triangle in clipped_triangles:
                 mapped_triangle: Triangle[Vertex] = (
@@ -39,16 +32,11 @@ class Renderer:
                 )
 
                 # Rasterizer
-                for fragment in rasterize(mapped_triangle, dimensions=ctx.frame.size, texture=ctx.texture):
+                for fragment in rasterize(mapped_triangle, dimensions=ctx.frame.size):
                     if ctx.frame.compare_depth(fragment.position, fragment.depth):
                         # Fragment Shader
                         color: Vector = default_fragment_shader(fragment, ctx=ctx)
                         ctx.frame.draw_pixel(fragment.position, color, fragment.depth)
-
-    @staticmethod
-    def frames() -> Generator[int, Any, None]:
-        for frame_index in itertools.count():
-            yield frame_index
 
     @contextmanager
     def frame(self) -> Generator[Frame, Any, None]:

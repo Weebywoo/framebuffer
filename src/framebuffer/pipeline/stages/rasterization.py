@@ -1,6 +1,6 @@
 from typing import Generator, Any
 
-from ..data import Fragment, Texture, Triangle, Vertex
+from ..data import Fragment, Triangle, Vertex
 from ...linalg import Vector
 from ...linalg.utils import (
     signed_triangle_area,
@@ -13,7 +13,6 @@ from ...linalg.utils import (
 def rasterize(
     triangle: Triangle[Vertex],
     dimensions: tuple[int, int],
-    texture: Texture,
 ) -> Generator[Fragment, Any, None]:
     vertex_0, vertex_1, vertex_2 = triangle
     triangle_area: float = signed_triangle_area(
@@ -61,4 +60,4 @@ def rasterize(
             uv: Vector = (uv_0 + uv_1 + uv_2) * (1.0 / inverted_w)
             depth: float = weights.dot(Vector([vertex_0.depth, vertex_1.depth, vertex_2.depth]))
 
-            yield Fragment(position=point, depth=depth, texture=texture, uv=uv)
+            yield Fragment(position=point, depth=depth, uv=uv)

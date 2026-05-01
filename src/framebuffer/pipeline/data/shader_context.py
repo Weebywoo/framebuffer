@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 
-from .texture import Texture
 from ...linalg import Matrix
 from ...rendering import Frame
 
@@ -11,4 +10,6 @@ class ShaderContext:
     view_matrix: Matrix
     projection_matrix: Matrix
     frame: Frame
-    texture: Texture
+    texture: list[list[list[int]]]
+    texture_shape: tuple[int, int]
+    clipping: tuple[float, float]

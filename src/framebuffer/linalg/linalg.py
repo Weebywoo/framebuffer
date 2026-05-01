@@ -8,7 +8,7 @@ class Vector:
         self._values: list[float] = list(values)
 
     @classmethod
-    def zero(cls, length: int) -> Vector:
+    def zeros(cls, length: int) -> Vector:
         return cls([0.0] * length)
 
     @classmethod
@@ -19,24 +19,59 @@ class Vector:
     def x(self) -> float:
         return self._values[0]
 
+    @x.setter
+    def x(self, value: float) -> None:
+        self._values[0] = value
+
     @property
     def y(self) -> float:
         return self._values[1]
+
+    @y.setter
+    def y(self, value: float) -> None:
+        self._values[1] = value
 
     @property
     def z(self) -> float:
         return self._values[2]
 
+    @z.setter
+    def z(self, value: float) -> None:
+        self._values[2] = value
+
     @property
     def w(self) -> float:
         return self._values[3]
 
+    @w.setter
+    def w(self, value: float) -> None:
+        self._values[3] = value
+
+    @property
+    def u(self) -> float:
+        return self._values[0]
+
+    @u.setter
+    def u(self, value: float) -> None:
+        self._values[0] = value
+
+    @property
+    def v(self) -> float:
+        return self._values[1]
+
+    @v.setter
+    def v(self, value: float) -> None:
+        self._values[1] = value
+
     @property
     def magnitude(self) -> float:
-        return sum(value**2 for value in self) ** 0.5
+        return sum(value ** 2 for value in self) ** 0.5
 
     @property
     def normalised(self) -> Vector:
+        if self.magnitude == 0.0:
+            return self
+
         return self / self.magnitude
 
     def dot(self, other: Vector, /) -> float:
@@ -95,10 +130,8 @@ class Vector:
         return Vector(map(func, self, other))
 
     def __iadd__(self, other: Vector, /) -> Vector:
-        def func(value: float, other_value: float) -> float:
-            return value + other_value
-
-        self._values = list(map(func, self, other))
+        for index, other_value in enumerate(other):
+            self._values[index] += other_value
 
         return self
 
@@ -115,6 +148,23 @@ class Vector:
         columns_other: list[Vector] = [other.take(column_index, axis=1) for column_index in range(other.shape[1])]
 
         return Vector(map(self.dot, columns_other))
+
+    def __repr__(self) -> str:
+        match len(self._values):
+            case 2:
+                return f"Vector(x={self._values[0]}, y={self._values[1]})"
+
+            case 3:
+                return f"Vector(x={self._values[0]}, y={self._values[1]}, z={self._values[2]})"
+
+            case 4:
+                return f"Vector(x={self._values[0]}, y={self._values[1]}, z={self._values[2]}, w={self._values[3]})"
+
+            case _:
+                return f"Vector({', '.join(map(str, self._values))})"
+
+    def __eq__(self, other: Vector) -> bool:
+        return all(self_value == other_value for self_value, other_value in zip(self, other))
 
 
 class Matrix:
@@ -135,6 +185,10 @@ class Matrix:
     @property
     def shape(self) -> tuple[int, int]:
         return self._shape
+
+    @property
+    def determinant(self) -> float:
+        return sum()
 
     def take(self, index: int, /, axis: Literal[0, 1] = 0) -> Vector:
         match axis:
