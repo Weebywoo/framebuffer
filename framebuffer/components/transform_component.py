@@ -14,22 +14,28 @@ class TransformComponent(BaseComponent):
         position: Optional[Vector[numpy.float64]] = None,
         scale: Optional[float] = None,
         rotation: Optional[Vector[numpy.float64]] = None,
-        scale_mode: Literal["add", "multiply"] = "add",
     ) -> None:
         assert not all((position is None, scale is None, rotation is None))
 
-        self.position: Vector[numpy.float64] = position or numpy.zeros(3, dtype=numpy.float64)
-        self.scale: float = scale or 1.0
-        self.rotation: Vector[numpy.float64] = rotation or numpy.zeros(3, dtype=numpy.float64)
-        self.scale_mode: Literal["add", "multiply"] = scale_mode
+        if position is not None:
+            self.position: Vector[numpy.float64] = position
+
+        else:
+            self.position: Vector[numpy.float64] = numpy.zeros(3, dtype=numpy.float64)
+
+        if scale is not None:
+            self.scale: float = scale
+
+        else:
+            self.scale: float = 1.0
+
+        if rotation is not None:
+            self.rotation: Vector[numpy.float64] = rotation
+
+        else:
+            self.rotation: Vector[numpy.float64] = numpy.zeros(3, dtype=numpy.float64)
 
     def apply(self, transform: Transform, elapsed_time: float, dt: float) -> None:
         transform.position += self.position
         transform.rotation += self.rotation
-
-        match self.scale_mode:
-            case "add":
-                transform.scale += self.scale
-
-            case "multiply":
-                transform.scale *= self.scale
+        transform.scale *= self.scale
