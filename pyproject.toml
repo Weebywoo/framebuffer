@@ -1,17 +1,20 @@
 [project]
 name = "framebuffer"
-version = "2026.0.1"
+version = "2026.10.28"
 dependencies = [
     "pillow ~= 12.2.0",
     "numpy ~= 2.4.4",
+    "numba ~= 0.68.1",
+    "scipy ~= 1.18.1"
 ]
-description = "A basic rendering engine utilising the terminal as display."
+description = "A basic game and rendering engine utilising the terminal as display."
 readme = "README.md"
+requires-python = ">=3.14"
 
 [project.optional-dependencies]
 test = [
     "ruff ~= 0.15.12",
-    "mypy ~= 1.20.2",
+    "mypy ~= 2.1.0",
 ]
 
 [build-system]
@@ -25,11 +28,11 @@ exclude = [
     ".ruff_cache/",
     ".mypy_cache/",
     "resources/",
-    "__pychache__/",
+    "__pycache__/",
     "build/",
     "LICENSE",
     ".gitignore",
-    "src/framebuffer/framebuffer.egg-info/"
+    "framebuffer.egg-info/"
 ]
 indent-width = 4
 line-length = 120
